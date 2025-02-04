@@ -17,14 +17,14 @@ jobs:
       - uses: actions/upload-artifact@v4
         id: lockfile
         with:
-          name: 'check-lockfile-${{ github.sha }}-${{ github.run_id }}'
-          path: '*.lock'
+          name: "check-lockfile-${{ github.sha }}-${{ github.run_id }}"
+          path: "*.lock"
           if-no-files-found: error
 
   rubocop:
     name: rubocop/lint
     runs-on: ubuntu-24.04
-    needs: ['build']
+    needs: ["build"]
     container: ghcr.io/datadog/images-rb/engines/ruby:3.3
     steps:
       - uses: actions/checkout@v4
@@ -35,7 +35,7 @@ jobs:
   standard:
     name: standard/lint
     runs-on: ubuntu-24.04
-    needs: ['build']
+    needs: ["build"]
     container: ghcr.io/datadog/images-rb/engines/ruby:3.3
     steps:
       - uses: actions/checkout@v4
@@ -47,7 +47,7 @@ jobs:
   steep:
     name: steep/typecheck
     runs-on: ubuntu-24.04
-    needs: ['build']
+    needs: ["build"]
     container: ghcr.io/datadog/images-rb/engines/ruby:3.3
     steps:
       - uses: actions/checkout@v4
@@ -67,13 +67,13 @@ jobs:
   dd-software-composition-analysis:
     name: dd/sca
     runs-on: ubuntu-24.04
-    needs: ['build']
+    needs: ["build"]
     container: ghcr.io/datadog/images-rb/engines/ruby:3.3
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - uses: actions/download-artifact@v4 # requires the lockfile
-      - uses: DataDog/datadog-sca-github-action@main
+      - uses: DataDog/datadog-sca-github-action@8f11a0155d3c49dd2749a16d6fc8644367d2043c # main
         with:
           dd_api_key: ${{ secrets.DD_API_KEY }}
           dd_app_key: ${{ secrets.DD_APP_KEY }}
@@ -109,12 +109,12 @@ jobs:
 
   static-analysis:
     needs:
-      - 'steep'
-      - 'rubocop'
-      - 'standard'
-      - 'semgrep'
-      - 'dd-software-composition-analysis'
-      - 'dd-static-analysis'
+      - "steep"
+      - "rubocop"
+      - "standard"
+      - "semgrep"
+      - "dd-software-composition-analysis"
+      - "dd-static-analysis"
     runs-on: ubuntu-24.04
     steps:
       - run: echo "Done"
